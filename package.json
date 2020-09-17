@@ -1,22 +1,16 @@
 {
-  "name": "react",
+  "name": "d3-hexbin",
   "version": "1.0.0",
-  "description": "React example starter project",
+  "description": "",
   "keywords": [
-    "react",
-    "starter"
+    "d3-hexbin"
   ],
   "main": "src/index.js",
   "dependencies": {
-    "@observablehq/stdlib": "3.4.0",
     "d3": "6.1.1",
-    "d3-color-legend": "1.2.5",
     "d3-dsv": "2.0.0",
     "d3-geo": "2.0.1",
     "d3-hexbin": "0.2.2",
-    "d3-queue": "3.0.7",
-    "d3-require": "1.2.4",
-    "lodash": "4.17.20",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.3",

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import * as hb from "d3-hexbin";
+import * as topojson from "topojson";
 import us from "../data/states-albers-10m.json";
 import walmart from "../data/walmart.tsv";
-import * as topojson from "topojson";
 
 export const ChartComponent = () => {
   const countryChart = useRef();
@@ -18,17 +18,16 @@ export const ChartComponent = () => {
 
     const projection = d3.geoAlbersUsa().scale(1280).translate([480, 300]);
 
-    let data = d3.tsvParse(walmart, (d) => {
+    const data = d3.tsvParse(walmart, (d) => {
       const p = projection(d);
       p.date = parseDate(d.date);
       return p;
     });
 
-    const color = d3
-      .scaleTime()
-      .domain([new Date(1962, 0, 1), new Date(2006, 0, 1)])
-      .range(["black", "steelblue"])
-      .interpolate(d3.interpolateLab);
+    const color = d3.scaleSequential(
+      d3.extent(data, (d) => d.date),
+      d3.interpolateSpectral
+    );
 
     const svg = d3
       .select(countryChart.current)
@@ -40,7 +39,7 @@ export const ChartComponent = () => {
       .hexbin()
       .extent([
         [0, 0],
-        [960, 600]
+        [width, heigh]
       ])
       .radius(10);
 
@@ -77,6 +76,10 @@ export const ChartComponent = () => {
           })
         );
       });
+
+    return () => {
+      svg.selectAll("*").remove();
+    };
   }, [width, heigh]);
 
   return (
